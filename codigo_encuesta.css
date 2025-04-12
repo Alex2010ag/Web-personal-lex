@@ -1,0 +1,14 @@
+header {
+    background-color: blueviolet;
+}
+
+section {
+    background-color: #364552;
+    color: white;
+    padding: 5rem 5rem;
+    margin: 3;
+}
+
+.header {
+    text-align: center;
+}

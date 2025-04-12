@@ -1,0 +1,49 @@
+.titulo {
+    text-align: center;
+    background-color: rgb(103, 103, 222);
+    color: black;
+    background-size: 3px;
+    padding: 3rem 3rem;
+}
+
+body {
+    background-color: #efefee;
+}
+
+.indice {
+    text-decoration: underline;
+}
+
+.introducciona {
+    text-decoration: underline;
+    color: brown;
+}
+
+.lenguajesa {
+    text-decoration: underline;
+    color: brown;
+}
+
+.titulosa {
+    text-decoration: underline;
+    color: brown;
+}
+
+body {
+    margin: 2rem 2rem;
+}
+
+.bloga {
+    text-decoration: underline;
+    color: brown;
+}
+
+.chata {
+    text-decoration: underline;
+    color: brown;
+}
+
+.redes-sociales {
+    text-decoration: underline;
+    color: black
+}

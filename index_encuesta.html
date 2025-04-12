@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Encuesta</title>
+    <link rel="stylesheet" href="codigo_encuesta.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1 class="titulo header">Formulario de la Encuesta</h1>
+            <p class="gracias header">Gracias por ayudarme en esta encuesta</p>
+        </header>
+
+
+        <form class="formulario" action="https://formspree.io/f/mwplewgr" method="POST" name="encuesta">
+            <section>
+                <div class=" campo">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" placeholder="Introduce su nombre" required class="campo input"
+                        name="nombre">
+                </div>
+
+                <div class="campo">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Introduce su email" class="campo input" name="email">
+                </div>
+
+                <div class="campo">
+                    <label for="edad">Edad</label>
+                    <input type="number" id="edad" placeholder="Introduce su edad" required min="18" class="campo input"
+                        name="edad">
+                </div>
+                <div>
+                    <p>Eliga la oción que mejor le describa</p>
+                    <select class="campo input" name="deporte">
+                        <option selected disabled>Escoge una opción</option>
+                        <option value="siempre">Hago deporte todos los días</option>
+                        <option value="regularmente">Hago deporte regularmente</option>
+                        <option value="algo">Hago algo de deporte a la semana</option>
+                        <option value="muy_poco">No tengo una rutina, hago deporte de vez en cuando</option>
+                        <option value="nada">No hago nada de deporte</option>
+
+
+                    </select>
+                </div>
+
+
+                <div class="tipo_deporte">
+                    <p>¿Qué deporte haces principalmente?</p>
+                    <label><input type="radio" name="Gimnasio" class="campo_radio">Gimnasio</label>
+                    <label><input type="radio" name="Artes marciales" class="campo_radio">Artes marciales</label>
+                    <label><input type="radio" name="Deporte al aire libre" class="campo_radio">Deporte al aire
+                        libre</label>
+                    <label><input type="radio" name="Natación" class="campo_radio">Natación o deportes similares</label>
+                    <label><input type="radio" name="Deportes con pelota" class="campo_radio">Deportes con
+                        pelota</label>
+
+                </div>
+
+
+                <div>
+                    <p>Eliga la oción que mejor le describa</p>
+                    <select class="campo input" name="dieta">
+                        <option selected disabled>Escoge una opción</option>
+                        <option value="dieta">Como saludable, tengo una dieta variada y completa siempre</option>
+                        <option value="intento_dieta">Intento comer sano pero a veces no lo consigo</option>
+                        <option value="mal">No como de manera variada y me cuesta seguir una dieta</option>
+                        <option value="terrible">No tengo dieta, como muy poca comida saludable y mucha comida basura
+                        </option>
+                    </select>
+                </div>
+                <div class="campo">
+                    <p>Escribe una breve redacción sobre el deporte que haces, sobre tu dieta y sobre lo que me mejorías
+                        en
+                        en tu rutina</p>
+                    <textarea class="campo_textarea" placeholder="Escibe aquí tu comentario" name="textarea"></textarea>
+                </div>
+
+                <div>
+                    <button type="submit" value="Enviar" class="campo_input">Enviar</button></button>
+                </div>
+
+            </section>
+
+
+        </form>
+
+
+</body>
+
+</html>

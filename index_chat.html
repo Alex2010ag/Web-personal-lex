@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alex.chat.Bott</title>
+    <link href="style_chat.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f1f1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .chat-container {
+            background: white;
+            width: 400px;
+            max-width: 90%;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-box {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            height: 400px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message {
+            margin: 8px 0;
+            padding: 8px 12px;
+            border-radius: 15px;
+            max-width: 70%;
+        }
+
+        .user {
+            background-color: #d1e7dd;
+            align-self: flex-end;
+            text-align: right;
+        }
+
+        .bot {
+            background-color: #e2e3e5;
+            align-self: flex-start;
+            text-align: left;
+        }
+
+        .input-area {
+            display: flex;
+            border-top: 1px solid #ddd;
+        }
+
+        #user-input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            outline: none;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+
+</head>
+
+<body>
+    <header>
+        <h1 style="text-align:center; color: black; border: solid 2px; ">Álex.chat</h1>
+    </header>
+    <section>
+        <div class="chat-container">
+            <div class="chat-box" id="chat-box">
+                <!-- Aquí irán los mensajes -->
+            </div>
+            <div class="input-area">
+                <input type="text" id="user-input" placeholder="Escribe algo..." />
+                <button onclick="sendMessage()">Enviar</button>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <script>
+        let userName = localStorage.getItem("chat_username");
+        let mood = "neutral"; // puede ser 'neutral', 'feliz', 'triste'
+
+        // Cargar historial del chat
+        window.onload = function () {
+            const history = JSON.parse(localStorage.getItem("chat_history")) || [];
+            history.forEach(msg => addMessage(msg.sender, msg.text, false));
+            if (!userName) {
+                setTimeout(() => {
+                    addMessage("bot", "¡Hola! ¿Cómo te llamas?");
+                }, 500);
+            }
+        };
+
+        function sendMessage() {
+            const input = document.getElementById("user-input");
+            const message = input.value.trim();
+            if (message === "") return;
+
+            addMessage("user", message, true);
+            input.value = "";
+
+            setTimeout(() => {
+                if (!userName) {
+                    userName = message;
+                    localStorage.setItem("chat_username", userName);
+                    botSpeak(`¡Encantado, ${userName}! ¿En qué puedo ayudarte hoy?`);
+                    return;
+                }
+
+                const response = getBotResponse(message);
+                botSpeak(response);
+            }, 500);
+        }
+
+        function botSpeak(text) {
+            addMessage("bot", text, true);
+            document.getElementById("bot-sound").play();
+        }
+
+        function addMessage(sender, text, save = true) {
+            const chatBox = document.getElementById("chat-box");
+            const msg = document.createElement("div");
+            msg.className = `message ${sender}`;
+            msg.innerText = text;
+            chatBox.appendChild(msg);
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            if (save) {
+                const history = JSON.parse(localStorage.getItem("chat_history")) || [];
+                history.push({ sender, text });
+                localStorage.setItem("chat_history", JSON.stringify(history));
+            }
+        }
+
+        function getBotResponse(input) {
+            const msg = input.toLowerCase();
+
+            // Detectar emociones
+            if (msg.includes("triste") || msg.includes("mal") || msg.includes("solo")) {
+                mood = "triste";
+                return "Lo siento mucho 😢. Estoy aquí para ti. ¿Quieres hablar de eso?";
+            }
+
+            if (msg.includes("feliz") || msg.includes("bien") || msg.includes("genial")) {
+                mood = "feliz";
+                return "¡Me alegro muchísimo! 😄 ¿Qué te ha pasado bueno hoy?";
+            }
+
+            // Respuestas con ánimo
+            if (msg.includes("cómo estás")) {
+                if (mood === "feliz") return "¡Estoy genial! Gracias por preguntar 😊";
+                if (mood === "triste") return "Bueno... un poco triste, pero mejor contigo 💙";
+                return "Estoy bien, ¿y tú?";
+            }
+
+            // Respuestas aleatorias
+            const respuestas = [
+                "Hmm, interesante...",
+                "Cuéntame más sobre eso.",
+                "No estoy seguro, pero suena genial.",
+                "¿Puedes explicarme mejor?",
+                "¡Eso suena divertido!",
+                `¿De verdad, ${userName}? 😯`
+            ];
+
+            // Respuestas personalizadas
+            if (msg.includes("hola") || msg.includes("buenas")) {
+                return `¡Hola ${userName}! ¿Cómo estás hoy?`;
+            }
+
+            if (msg.includes("adios") || msg.includes("nos vemos") || msg.includes("hasta luego")) {
+                return `¡Hasta luego, ${userName}! Fue un placer hablar contigo.`;
+            }
+
+            if (msg.includes("gracias")) {
+                return "¡De nada! A ti por estar hablando conmigo 😊";
+            }
+            if (msg.includes("como te llamas") || msg.includes("¿como te llamas?") || msg.includes("cual es tu nombre")) {
+                return "Mi nombre es Álex Alonso 😊";
+            }
+            if (msg.includes("dime tu edad") || msg.includes("cual es tu edad") || msg.includes("cuantos años tienes")) {
+                return "Pues... no se cuantos años tengo, me parece que no llego al año... o tengo cientos ¿? ";
+            }
+            if (msg.include("qué puedes hacer")) {
+                return "Puedo hablar contigo, animarte, o simplemente escucharte.";
+            }
+            else {
+                return respuestas[Math.floor(Math.random() * respuestas.length)];
+            }
+
+        }
+    </script>
+</body>
+
+</html>
